@@ -71,8 +71,21 @@ class _SkyhookHomePageState extends State<SkyhookHomePage> {
             'In order to have skyhook parse your webhooks properly, you must first generate a webhook URL. Once you have the URL generated, you can pass it along to the provider you selected.',
             style: Theme.of(context).textTheme.bodyText1,
           ),
+          _providerList(_providers),
         ],
       ),
     );
+  }
+
+  Widget _providerList(List<String> providers) {
+    if (_providers.isEmpty) {
+      return const Text("Empty");
+    }
+    return ListView(
+        shrinkWrap: true,
+        children: providers.map((provider) {
+          var w = Text(provider);
+          return w;
+        }).toList());
   }
 }

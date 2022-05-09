@@ -1,5 +1,5 @@
 # skyhook-web
-Website for skyhook, made in Flutter
+Website for skyhook, made in [Flutter](https://flutter.dev/)
 
 [![Discord](https://discordapp.com/api/guilds/303595820345851905/widget.png)](https://discord.gg/js7wD7p)
 
