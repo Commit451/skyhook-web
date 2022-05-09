@@ -15,7 +15,7 @@ jobs:
         with:
           flutter-version: '2.10.5'
       - run: flutter pub get
-      - run: flutter build web --base_href "/skyhook-web/"
+      - run: flutter build web --base-href "/skyhook-web/"
       - uses: JamesIves/github-pages-deploy-action@v4.3.3
         with:
           branch: gh-pages
