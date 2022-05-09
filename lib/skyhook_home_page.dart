@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:skyhook/provider.dart';
 import 'package:skyhook/skyhook_api.dart';
 import 'package:skyhook/snackbar_helper.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -13,7 +14,7 @@ class SkyhookHomePage extends StatefulWidget {
 }
 
 class _SkyhookHomePageState extends State<SkyhookHomePage> {
-  List<String> _providers = List.empty();
+  List<Provider> _providers = List.empty();
 
   @override
   void initState() {
@@ -32,7 +33,7 @@ class _SkyhookHomePageState extends State<SkyhookHomePage> {
     SnackBarHelper.show(context, "Something went wrong");
   }
 
-  void _setProviders(List<String> providers) {
+  void _setProviders(List<Provider> providers) {
     setState(() {
       _providers = providers;
     });
@@ -63,35 +64,43 @@ class _SkyhookHomePageState extends State<SkyhookHomePage> {
           ),
         ],
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Text(
-            'skyhook parses webhooks from various services and forwards them in the proper format to Discord.',
-            style: Theme.of(context).textTheme.bodyText1,
-          ),
-          Text(
-            'In order to have skyhook parse your webhooks properly, you must first generate a webhook URL. Once you have the URL generated, you can pass it along to the provider you selected.',
-            style: Theme.of(context).textTheme.bodyText1,
-          ),
-          _providerList(_providers),
-          ElevatedButton(
-            onPressed: _generate,
-            child: const Text("Generate"),
-          )
-        ],
+      body: Container(
+        margin: const EdgeInsets.all(40.0),
+        child: Column(
+          children: <Widget>[
+            Text(
+              'skyhook parses webhooks from various services and forwards them in the proper format to Discord.',
+              style: Theme.of(context).textTheme.titleLarge,
+              textAlign: TextAlign.center,
+            ),
+            const Spacer(),
+            Text(
+              'In order to have skyhook parse your webhooks properly, you must first generate a webhook URL. Once you have the URL generated, you can pass it along to the provider you selected.',
+              style: Theme.of(context).textTheme.bodyText1,
+            ),
+            const Spacer(),
+            _providerList(_providers),
+            const Spacer(),
+            ElevatedButton(
+                onPressed: _generate,
+                child: Container(
+                  margin: const EdgeInsets.only(left: 40.0, right: 40.0, top: 20.0, bottom: 20.0),
+                  child: const Text("Generate"),
+                ))
+          ],
+        ),
       ),
     );
   }
 
-  Widget _providerList(List<String> providers) {
+  Widget _providerList(List<Provider> providers) {
     if (_providers.isEmpty) {
       return const Text("Empty");
     }
     return ListView(
         shrinkWrap: true,
         children: providers.map((provider) {
-          var w = Text(provider);
+          var w = Text(provider.name + " /" + provider.path);
           return w;
         }).toList());
   }
