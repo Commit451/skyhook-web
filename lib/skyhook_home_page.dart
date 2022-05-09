@@ -16,12 +16,21 @@ class SkyhookHomePage extends StatefulWidget {
 
 class _SkyhookHomePageState extends State<SkyhookHomePage> {
   List<Provider> _providers = List.empty();
-  Provider? _selectedProvider = null;
+  Provider? _selectedProvider;
+  String? _currentErrorMessage;
+  late TextEditingController _controller;
 
   @override
   void initState() {
     super.initState();
+    _controller = TextEditingController();
     _loadProviders();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 
   void _loadProviders() {
@@ -49,12 +58,15 @@ class _SkyhookHomePageState extends State<SkyhookHomePage> {
   }
 
   void _generate() {
-    if (_selectedProvider == null) {
+    String path = _selectedProvider?.path ?? "";
+    if (path.isEmpty) {
       SnackBarHelper.show(context, 'Please select a provider');
-    } else {
-      Clipboard.setData(ClipboardData(text: _selectedProvider?.name));
-      SnackBarHelper.show(context, 'Copied to clipboard');
+      return;
     }
+    String url = _controller.text;
+    // todo validate the URL
+    Clipboard.setData(ClipboardData(text: url + "/" + path));
+    SnackBarHelper.show(context, 'Copied to clipboard');
   }
 
   @override
@@ -73,15 +85,27 @@ class _SkyhookHomePageState extends State<SkyhookHomePage> {
         ],
       ),
       body: ListView(
+        padding: const EdgeInsets.all(40.0),
         children: <Widget>[
           Text(
             'skyhook parses webhooks from various services and forwards them in the proper format to Discord.',
             style: Theme.of(context).textTheme.titleLarge,
             textAlign: TextAlign.center,
           ),
+          separator(),
           Text(
             'In order to have skyhook parse your webhooks properly, you must first generate a webhook URL. Once you have the URL generated, you can pass it along to the provider you selected.',
             style: Theme.of(context).textTheme.bodyText1,
+          ),
+          separator(),
+          TextFormField(
+            controller: _controller,
+            decoration: InputDecoration(
+              labelText: 'Discord Webhook URL',
+              errorText: _currentErrorMessage,
+              border: const OutlineInputBorder(),
+              suffixIcon: errorIcon(),
+            ),
           ),
           _providerList(_providers),
           ElevatedButton(
@@ -94,6 +118,14 @@ class _SkyhookHomePageState extends State<SkyhookHomePage> {
         ],
       ),
     );
+  }
+
+  Widget? errorIcon() {
+    if (_currentErrorMessage == null) {
+      return null;
+    } else {
+      return const Icon(Icons.error);
+    }
   }
 
   Widget _providerList(List<Provider> providers) {
@@ -117,5 +149,11 @@ class _SkyhookHomePageState extends State<SkyhookHomePage> {
           );
           return widget;
         }).toList());
+  }
+
+  Widget separator() {
+    return const SizedBox(
+      height: 20.0,
+    );
   }
 }
