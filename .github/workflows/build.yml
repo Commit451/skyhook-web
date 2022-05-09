@@ -4,6 +4,9 @@ on:
   push:
     branches: [ main ]
 
+env:
+  FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+
 jobs:
   build:
 
@@ -16,7 +19,5 @@ jobs:
           flutter-version: '2.10.5'
       - run: flutter pub get
       - run: flutter build web
-      - uses: JamesIves/github-pages-deploy-action@v4.3.3
-        with:
-          branch: gh-pages
-          folder: build/web
+      - uses: superfly/flyctl-actions/setup-flyctl@master
+      - run: flyctl deploy --remote-only
