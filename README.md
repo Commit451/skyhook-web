@@ -5,6 +5,11 @@ Website for skyhook, made in Flutter
 
 This is just the visual web frontend. See [skyhook](https://github.com/Commit451/skyhook) for the important backend bits.
 
+## Build
+```
+flutter build web
+```
+
 ## License
 skyhook-web is available under the MIT license. See the LICENSE file for more info.
 
