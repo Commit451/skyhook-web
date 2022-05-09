@@ -132,20 +132,24 @@ class _SkyhookHomePageState extends State<SkyhookHomePage> {
     if (_providers.isEmpty) {
       return const Text("Empty");
     }
-    return ListView(
-        shrinkWrap: true,
+    return Wrap(
+        spacing: 8.0, // gap between adjacent chips
+        runSpacing: 4.0, // gap between lines
         children: providers.map((provider) {
-          var widget = ListTile(
-            title: Text(provider.name),
-            leading: Radio<Provider>(
-              value: provider,
-              groupValue: _selectedProvider,
-              onChanged: (Provider? value) {
-                setState(() {
-                  _selectedProvider = value;
-                });
-              },
-            ),
+          var widget = Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Radio<Provider>(
+                value: provider,
+                groupValue: _selectedProvider,
+                onChanged: (Provider? value) {
+                  setState(() {
+                    _selectedProvider = value;
+                  });
+                },
+              ),
+              Text(provider.name),
+            ],
           );
           return widget;
         }).toList());
