@@ -45,6 +45,10 @@ class _SkyhookHomePageState extends State<SkyhookHomePage> {
     }
   }
 
+  void _generate() {
+    SnackBarHelper.show(context, 'Not implemented yet');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,7 +58,6 @@ class _SkyhookHomePageState extends State<SkyhookHomePage> {
           IconButton(
             icon: const Icon(Icons.code),
             onPressed: () {
-              print("Clicked");
               _launchUrl("https://github.com/Commit451/skyhook");
             },
           ),
@@ -72,6 +75,10 @@ class _SkyhookHomePageState extends State<SkyhookHomePage> {
             style: Theme.of(context).textTheme.bodyText1,
           ),
           _providerList(_providers),
+          ElevatedButton(
+            onPressed: _generate,
+            child: const Text("Generate"),
+          )
         ],
       ),
     );
