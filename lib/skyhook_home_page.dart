@@ -3,6 +3,7 @@ import 'package:skyhook/provider.dart';
 import 'package:skyhook/skyhook_api.dart';
 import 'package:skyhook/snackbar_helper.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter/services.dart';
 
 class SkyhookHomePage extends StatefulWidget {
   const SkyhookHomePage({Key? key, required this.title}) : super(key: key);
@@ -48,7 +49,12 @@ class _SkyhookHomePageState extends State<SkyhookHomePage> {
   }
 
   void _generate() {
-    SnackBarHelper.show(context, 'Not implemented yet');
+    if (_selectedProvider == null) {
+      SnackBarHelper.show(context, 'Please select a provider');
+    } else {
+      Clipboard.setData(ClipboardData(text: _selectedProvider?.name));
+      SnackBarHelper.show(context, 'Copied to clipboard');
+    }
   }
 
   @override
@@ -66,31 +72,26 @@ class _SkyhookHomePageState extends State<SkyhookHomePage> {
           ),
         ],
       ),
-      body: Container(
-        margin: const EdgeInsets.all(40.0),
-        child: Column(
-          children: <Widget>[
-            Text(
-              'skyhook parses webhooks from various services and forwards them in the proper format to Discord.',
-              style: Theme.of(context).textTheme.titleLarge,
-              textAlign: TextAlign.center,
-            ),
-            const Spacer(),
-            Text(
-              'In order to have skyhook parse your webhooks properly, you must first generate a webhook URL. Once you have the URL generated, you can pass it along to the provider you selected.',
-              style: Theme.of(context).textTheme.bodyText1,
-            ),
-            const Spacer(),
-            _providerList(_providers),
-            const Spacer(),
-            ElevatedButton(
-                onPressed: _generate,
-                child: Container(
-                  margin: const EdgeInsets.only(left: 40.0, right: 40.0, top: 20.0, bottom: 20.0),
-                  child: const Text("Generate"),
-                ))
-          ],
-        ),
+      body: ListView(
+        children: <Widget>[
+          Text(
+            'skyhook parses webhooks from various services and forwards them in the proper format to Discord.',
+            style: Theme.of(context).textTheme.titleLarge,
+            textAlign: TextAlign.center,
+          ),
+          Text(
+            'In order to have skyhook parse your webhooks properly, you must first generate a webhook URL. Once you have the URL generated, you can pass it along to the provider you selected.',
+            style: Theme.of(context).textTheme.bodyText1,
+          ),
+          _providerList(_providers),
+          ElevatedButton(
+              onPressed: _generate,
+              child: Container(
+                margin: const EdgeInsets.only(
+                    left: 40.0, right: 40.0, top: 20.0, bottom: 20.0),
+                child: const Text("Generate"),
+              )),
+        ],
       ),
     );
   }
