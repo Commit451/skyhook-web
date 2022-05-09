@@ -11,9 +11,13 @@ class SkyhookApp extends StatelessWidget {
       title: 'skyhook',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: SkyhookColors.primaryMaterialColor(),
+          visualDensity: VisualDensity.adaptivePlatformDensity,
+          brightness: Brightness.dark,
+          primarySwatch: SkyhookColors.primaryMaterialColor(),
+          appBarTheme: AppBarTheme(
+            color: SkyhookColors.primaryColor(),
+          )
       ),
-      themeMode: ThemeMode.dark,
       home: const SkyhookHomePage(title: 'skyhook'),
     );
   }
