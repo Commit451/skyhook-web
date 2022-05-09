@@ -55,6 +55,7 @@ class _SkyhookHomePageState extends State<SkyhookHomePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
+        centerTitle: false,
         actions: [
           IconButton(
             icon: const Icon(Icons.code),
