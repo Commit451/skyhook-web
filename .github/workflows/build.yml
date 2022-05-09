@@ -12,8 +12,6 @@ jobs:
 
       - name: Install and Build 🔧
         uses: subosito/flutter-action@v2
-        with:
-          flutter-version: '2.10.5'
         run: |
           flutter pub get
           flutter build web
