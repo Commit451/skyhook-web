@@ -24,6 +24,7 @@ class _SkyhookHomePageState extends State<SkyhookHomePage> {
   void initState() {
     super.initState();
     _controller = TextEditingController();
+    _controller.addListener(_onTyped);
     _loadProviders();
   }
 
@@ -31,6 +32,14 @@ class _SkyhookHomePageState extends State<SkyhookHomePage> {
   void dispose() {
     _controller.dispose();
     super.dispose();
+  }
+
+  void _onTyped() {
+    if (_currentErrorMessage != null) {
+      setState(() {
+        _currentErrorMessage = null;
+      });
+    }
   }
 
   void _loadProviders() {
@@ -58,15 +67,32 @@ class _SkyhookHomePageState extends State<SkyhookHomePage> {
   }
 
   void _generate() {
+    String domain = "discord.com";
     String path = _selectedProvider?.path ?? "";
     if (path.isEmpty) {
       SnackBarHelper.show(context, 'Please select a provider');
       return;
     }
     String url = _controller.text;
-    // todo validate the URL
-    Clipboard.setData(ClipboardData(text: url + "/" + path));
-    SnackBarHelper.show(context, 'Copied to clipboard');
+    if (url.isEmpty) {
+      setState(() {
+        _currentErrorMessage = "Please paste your Discord Webhook URL here";
+      });
+      return;
+    }
+    if (!url.contains(domain)) {
+      setState(() {
+        _currentErrorMessage = "Not a valid Discord Webhook URL";
+      });
+      return;
+    }
+    String generatedUrl = "";
+
+    generatedUrl = url.replaceAll(domain, "skyhookapi.com");
+    generatedUrl += "/" + path;
+
+    Clipboard.setData(ClipboardData(text: generatedUrl));
+    SnackBarHelper.show(context, 'URL generated. Copied to clipboard');
   }
 
   @override
@@ -90,14 +116,13 @@ class _SkyhookHomePageState extends State<SkyhookHomePage> {
           Text(
             'skyhook parses webhooks from various services and forwards them in the proper format to Discord.',
             style: Theme.of(context).textTheme.titleLarge,
-            textAlign: TextAlign.center,
           ),
-          separator(),
+          verticalSeparator(),
           Text(
             'In order to have skyhook parse your webhooks properly, you must first generate a webhook URL. Once you have the URL generated, you can pass it along to the provider you selected.',
             style: Theme.of(context).textTheme.bodyText1,
           ),
-          separator(),
+          verticalSeparator(),
           TextFormField(
             controller: _controller,
             decoration: InputDecoration(
@@ -107,7 +132,9 @@ class _SkyhookHomePageState extends State<SkyhookHomePage> {
               suffixIcon: errorIcon(),
             ),
           ),
+          verticalSeparator(),
           _providerList(_providers),
+          verticalSeparator(),
           ElevatedButton(
               onPressed: _generate,
               child: Container(
@@ -136,28 +163,41 @@ class _SkyhookHomePageState extends State<SkyhookHomePage> {
         spacing: 8.0, // gap between adjacent chips
         runSpacing: 4.0, // gap between lines
         children: providers.map((provider) {
-          var widget = Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Radio<Provider>(
-                value: provider,
-                groupValue: _selectedProvider,
-                onChanged: (Provider? value) {
-                  setState(() {
-                    _selectedProvider = value;
-                  });
-                },
-              ),
-              Text(provider.name),
-            ],
-          );
+          var widget = InkWell(
+              onTap: () {
+                setState(() {
+                  _selectedProvider = provider;
+                });
+              },
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Radio<Provider>(
+                    value: provider,
+                    groupValue: _selectedProvider,
+                    onChanged: (Provider? value) {
+                      setState(() {
+                        _selectedProvider = value;
+                      });
+                    },
+                  ),
+                  Text(provider.name),
+                  horizontalSeparator()
+                ],
+              ));
           return widget;
         }).toList());
   }
 
-  Widget separator() {
+  Widget verticalSeparator() {
     return const SizedBox(
       height: 20.0,
+    );
+  }
+
+  Widget horizontalSeparator() {
+    return const SizedBox(
+      width: 10.0,
     );
   }
 }
