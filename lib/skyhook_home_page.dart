@@ -15,6 +15,7 @@ class SkyhookHomePage extends StatefulWidget {
 
 class _SkyhookHomePageState extends State<SkyhookHomePage> {
   List<Provider> _providers = List.empty();
+  Provider? _selectedProvider = null;
 
   @override
   void initState() {
@@ -101,8 +102,19 @@ class _SkyhookHomePageState extends State<SkyhookHomePage> {
     return ListView(
         shrinkWrap: true,
         children: providers.map((provider) {
-          var w = Text(provider.name + " /" + provider.path);
-          return w;
+          var widget = ListTile(
+            title: Text(provider.name),
+            leading: Radio<Provider>(
+              value: provider,
+              groupValue: _selectedProvider,
+              onChanged: (Provider? value) {
+                setState(() {
+                  _selectedProvider = value;
+                });
+              },
+            ),
+          );
+          return widget;
         }).toList());
   }
 }
