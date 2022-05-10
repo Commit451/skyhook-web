@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:skyhook/skyhook_colors.dart';
+import 'package:skyhook/ui/skyhook_colors.dart';
 
 /// Standard loading widgets
 class LoadingWidgetFactory {

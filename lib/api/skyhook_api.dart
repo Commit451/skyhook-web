@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:skyhook/provider.dart';
+import 'package:skyhook/model/provider.dart';
 
 /// Defines all API interactions with the skyhook backend
 class SkyhookApi {

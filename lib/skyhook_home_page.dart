@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:skyhook/loading_widget_factory.dart';
-import 'package:skyhook/provider.dart';
-import 'package:skyhook/skyhook_api.dart';
-import 'package:skyhook/snackbar_helper.dart';
+import 'package:skyhook/data/storage_manager.dart';
+import 'package:skyhook/ui/loading_widget_factory.dart';
+import 'package:skyhook/model/provider.dart';
+import 'package:skyhook/api/skyhook_api.dart';
+import 'package:skyhook/ui/snackbar_helper.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/services.dart';
 
@@ -50,7 +51,6 @@ class _SkyhookHomePageState extends State<SkyhookHomePage> {
   }
 
   void _onError(Object error) {
-    print(error);
     SnackBarHelper.show(context, "Something went wrong");
   }
 
@@ -115,6 +115,13 @@ class _SkyhookHomePageState extends State<SkyhookHomePage> {
         title: Text(widget.title),
         centerTitle: false,
         actions: [
+          // IconButton(
+          //   icon: const Icon(Icons.light_mode),
+          //   onPressed: () {
+          //     //TODO set it in the notifier
+          //     StorageManager.setIsDarkTheme(false);
+          //   },
+          // ),
           IconButton(
             icon: const Icon(Icons.code),
             onPressed: () {
