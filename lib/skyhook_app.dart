@@ -13,7 +13,7 @@ class SkyhookApp extends StatelessWidget {
               title: 'skyhook',
               debugShowCheckedModeBanner: false,
               theme: themeNotifier.getTheme(),
-              home: const SkyhookHomePage(title: 'skyhook'),
+              home: SkyhookHomePage(title: 'skyhook', themeNotifier: themeNotifier,),
             ));
   }
 }

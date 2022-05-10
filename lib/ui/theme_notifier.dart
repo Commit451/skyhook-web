@@ -35,15 +35,14 @@ class ThemeNotifier with ChangeNotifier {
     });
   }
 
-  void setDarkMode() async {
-    _themeData = darkTheme;
-    StorageManager.setIsDarkTheme(true);
-    notifyListeners();
-  }
-
-  void setLightMode() async {
-    _themeData = lightTheme;
-    StorageManager.setIsDarkTheme(false);
+  void toggle() async {
+    if (_themeData == darkTheme) {
+      _themeData = lightTheme;
+      StorageManager.setIsDarkTheme(false);
+    } else {
+      _themeData = darkTheme;
+      StorageManager.setIsDarkTheme(true);
+    }
     notifyListeners();
   }
 }

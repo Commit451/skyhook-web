@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:skyhook/data/storage_manager.dart';
 import 'package:skyhook/ui/loading_widget_factory.dart';
 import 'package:skyhook/model/provider.dart';
 import 'package:skyhook/api/skyhook_api.dart';
 import 'package:skyhook/ui/snackbar_helper.dart';
+import 'package:skyhook/ui/theme_notifier.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/services.dart';
 
 class SkyhookHomePage extends StatefulWidget {
-  const SkyhookHomePage({Key? key, required this.title}) : super(key: key);
+  const SkyhookHomePage(
+      {Key? key, required this.title, required this.themeNotifier})
+      : super(key: key);
 
   final String title;
+  final ThemeNotifier themeNotifier;
 
   @override
   State<SkyhookHomePage> createState() => _SkyhookHomePageState();
@@ -20,6 +23,7 @@ class _SkyhookHomePageState extends State<SkyhookHomePage> {
   List<Provider> _providers = List.empty();
   Provider? _selectedProvider;
   String? _currentErrorMessage;
+  late IconData _iconData;
   late TextEditingController _controller;
 
   @override
@@ -28,6 +32,11 @@ class _SkyhookHomePageState extends State<SkyhookHomePage> {
     _controller = TextEditingController();
     _controller.addListener(_onTyped);
     _loadProviders();
+    if (widget.themeNotifier.isDarkTheme()) {
+      _iconData = Icons.light_mode;
+    } else {
+      _iconData = Icons.dark_mode;
+    }
   }
 
   @override
@@ -97,15 +106,25 @@ class _SkyhookHomePageState extends State<SkyhookHomePage> {
         action: SnackBarAction(
           label: 'Test',
           onPressed: () {
-            test(generatedUrl);
+            _test(generatedUrl);
           },
         ));
   }
 
-  void test(String generatedUrl) {
+  void _test(String generatedUrl) {
     SkyhookApi.testProvider(generatedUrl)
         .then((value) => SnackBarHelper.show(context, "Test message sent"))
         .catchError(_onError);
+  }
+
+  void _reverseIconData() {
+    setState(() {
+      if (_iconData == Icons.dark_mode) {
+        _iconData = Icons.light_mode;
+      } else {
+        _iconData = Icons.dark_mode;
+      }
+    });
   }
 
   @override
@@ -115,13 +134,13 @@ class _SkyhookHomePageState extends State<SkyhookHomePage> {
         title: Text(widget.title),
         centerTitle: false,
         actions: [
-          // IconButton(
-          //   icon: const Icon(Icons.light_mode),
-          //   onPressed: () {
-          //     //TODO set it in the notifier
-          //     StorageManager.setIsDarkTheme(false);
-          //   },
-          // ),
+          IconButton(
+            icon: Icon(_iconData),
+            onPressed: () {
+              widget.themeNotifier.toggle();
+              _reverseIconData();
+            },
+          ),
           IconButton(
             icon: const Icon(Icons.code),
             onPressed: () {
