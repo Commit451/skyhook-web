@@ -121,6 +121,12 @@ class _SkyhookHomePageState extends State<SkyhookHomePage> {
               _launchUrl("https://github.com/Commit451/skyhook");
             },
           ),
+          IconButton(
+            icon: const Icon(Icons.flutter_dash),
+            onPressed: () {
+              _launchUrl("https://github.com/Commit451/skyhook-web");
+            },
+          ),
         ],
       ),
       body: ListView(
