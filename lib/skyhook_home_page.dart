@@ -31,6 +31,7 @@ class _SkyhookHomePageState extends State<SkyhookHomePage> {
     super.initState();
     _controller = TextEditingController();
     _controller.addListener(_onTyped);
+    widget.themeNotifier.addListener(_setFromNotifier);
     _loadProviders();
     if (widget.themeNotifier.isDarkTheme()) {
       _iconData = Icons.light_mode;
@@ -117,9 +118,9 @@ class _SkyhookHomePageState extends State<SkyhookHomePage> {
         .catchError(_onError);
   }
 
-  void _reverseIconData() {
+  void _setFromNotifier() {
     setState(() {
-      if (_iconData == Icons.dark_mode) {
+      if (widget.themeNotifier.isDarkTheme()) {
         _iconData = Icons.light_mode;
       } else {
         _iconData = Icons.dark_mode;
@@ -138,7 +139,6 @@ class _SkyhookHomePageState extends State<SkyhookHomePage> {
             icon: Icon(_iconData),
             onPressed: () {
               widget.themeNotifier.toggle();
-              _reverseIconData();
             },
           ),
           IconButton(
