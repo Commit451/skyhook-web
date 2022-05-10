@@ -155,39 +155,42 @@ class _SkyhookHomePageState extends State<SkyhookHomePage> {
           ),
         ],
       ),
-      body: ListView(
-        padding: const EdgeInsets.all(40.0),
-        children: <Widget>[
-          Text(
-            'skyhook parses webhooks from various services and forwards them in the proper format to Discord.',
-            style: Theme.of(context).textTheme.titleLarge,
-          ),
-          verticalSeparator(),
-          Text(
-            'In order to have skyhook parse your webhooks properly, you must first generate a webhook URL. Once you have the URL generated, you can pass it along to the provider you selected.',
-            style: Theme.of(context).textTheme.bodyText1,
-          ),
-          verticalSeparator(),
-          TextFormField(
-            controller: _controller,
-            decoration: InputDecoration(
-              labelText: 'Discord Webhook URL',
-              errorText: _currentErrorMessage,
-              border: const OutlineInputBorder(),
-              suffixIcon: errorIcon(),
+      body: Card(
+        margin: const EdgeInsets.all(20.0),
+        child: ListView(
+          padding: const EdgeInsets.all(40.0),
+          children: <Widget>[
+            Text(
+              'skyhook parses webhooks from various services and forwards them in the proper format to Discord.',
+              style: Theme.of(context).textTheme.titleLarge,
             ),
-          ),
-          verticalSeparator(),
-          _providerList(_providers),
-          verticalSeparator(),
-          ElevatedButton(
-              onPressed: _generate,
-              child: Container(
-                margin: const EdgeInsets.only(
-                    left: 40.0, right: 40.0, top: 20.0, bottom: 20.0),
-                child: const Text("Generate"),
-              )),
-        ],
+            verticalSeparator(),
+            Text(
+              'In order to have skyhook parse your webhooks properly, you must first generate a webhook URL. Once you have the URL generated, you can pass it along to the provider you selected.',
+              style: Theme.of(context).textTheme.bodyText1,
+            ),
+            verticalSeparator(),
+            TextFormField(
+              controller: _controller,
+              decoration: InputDecoration(
+                labelText: 'Discord Webhook URL',
+                errorText: _currentErrorMessage,
+                border: const OutlineInputBorder(),
+                suffixIcon: errorIcon(),
+              ),
+            ),
+            verticalSeparator(),
+            _providerList(_providers),
+            verticalSeparator(),
+            ElevatedButton(
+                onPressed: _generate,
+                child: Container(
+                  margin: const EdgeInsets.only(
+                      left: 40.0, right: 40.0, top: 20.0, bottom: 20.0),
+                  child: const Text("Generate URL"),
+                )),
+          ],
+        ),
       ),
     );
   }
