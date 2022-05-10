@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:skyhook/loading_widget_factory.dart';
 import 'package:skyhook/provider.dart';
 import 'package:skyhook/skyhook_api.dart';
 import 'package:skyhook/snackbar_helper.dart';
@@ -169,7 +170,7 @@ class _SkyhookHomePageState extends State<SkyhookHomePage> {
 
   Widget _providerList(List<Provider> providers) {
     if (_providers.isEmpty) {
-      return const Text("Empty");
+      return LoadingWidgetFactory.centeredIndicator();
     }
     return Wrap(
         spacing: 8.0, // gap between adjacent chips
