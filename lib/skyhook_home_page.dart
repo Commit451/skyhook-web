@@ -92,7 +92,19 @@ class _SkyhookHomePageState extends State<SkyhookHomePage> {
     generatedUrl += "/" + path;
 
     Clipboard.setData(ClipboardData(text: generatedUrl));
-    SnackBarHelper.show(context, 'URL generated. Copied to clipboard');
+    SnackBarHelper.show(context, 'URL generated. Copied to clipboard',
+        action: SnackBarAction(
+          label: 'Test',
+          onPressed: () {
+            test(generatedUrl);
+          },
+        ));
+  }
+
+  void test(String generatedUrl) {
+    SkyhookApi.testProvider(generatedUrl)
+        .then((value) => SnackBarHelper.show(context, "Test message sent"))
+        .catchError(_onError);
   }
 
   @override
