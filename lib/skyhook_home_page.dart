@@ -79,8 +79,8 @@ class _SkyhookHomePageState extends State<SkyhookHomePage> {
 
   void _generate() {
     String domain = "discord.com";
-    String path = _selectedProvider?.path ?? "";
-    if (path.isEmpty) {
+    String providerPath = _selectedProvider?.path ?? "";
+    if (providerPath.isEmpty) {
       SnackBarHelper.show(context, 'Please select a provider');
       return;
     }
@@ -97,10 +97,13 @@ class _SkyhookHomePageState extends State<SkyhookHomePage> {
       });
       return;
     }
-    String generatedUrl = "";
-
-    generatedUrl = url.replaceAll(domain, "skyhookapi.com");
-    generatedUrl += "/" + path;
+    Uri parsedUrl = Uri.parse(url);
+    // second to last
+    String webhookId =
+        parsedUrl.pathSegments.elementAt(parsedUrl.pathSegments.length - 2);
+    String webhookSecret = parsedUrl.pathSegments.last;
+    String generatedUrl =
+        "https://skyhookapi.com/api/webhooks/$webhookId/$webhookSecret/$providerPath";
 
     Clipboard.setData(ClipboardData(text: generatedUrl));
     SnackBarHelper.show(context, 'URL generated. Copied to clipboard',
