@@ -98,10 +98,11 @@ class _SkyhookHomePageState extends State<SkyhookHomePage> {
       return;
     }
     Uri parsedUrl = Uri.parse(url);
+    List<String> pathSegments = List.from(parsedUrl.pathSegments);
+    pathSegments.removeWhere((item) => item == '');
     // second to last
-    String webhookId =
-        parsedUrl.pathSegments.elementAt(parsedUrl.pathSegments.length - 2);
-    String webhookSecret = parsedUrl.pathSegments.last;
+    String webhookId = pathSegments.elementAt(pathSegments.length - 2);
+    String webhookSecret = pathSegments.last;
     String generatedUrl =
         "https://skyhookapi.com/api/webhooks/$webhookId/$webhookSecret/$providerPath";
 
