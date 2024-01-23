@@ -9,7 +9,7 @@ class Provider {
         path = json['path'];
 
   Map<String, dynamic> toJson() => {
-    'name': name,
-    'path': path,
-  };
+        'name': name,
+        'path': path,
+      };
 }
