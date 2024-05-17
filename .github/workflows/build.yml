@@ -27,7 +27,7 @@ jobs:
       - name: Build
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.16.7'
+          flutter-version: '3.22.0'
       - run: flutter pub get
       - run: flutter build web --base-href "/skyhook-web/"
       - name: Setup Pages

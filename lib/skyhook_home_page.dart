@@ -7,7 +7,7 @@ import 'package:skyhook/ui/snackbar_helper.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class SkyhookHomePage extends StatefulWidget {
-  const SkyhookHomePage({Key? key, required this.title}) : super(key: key);
+  const SkyhookHomePage({super.key, required this.title});
 
   final String title;
 
@@ -145,7 +145,7 @@ class _SkyhookHomePageState extends State<SkyhookHomePage> {
             verticalSeparator(),
             Text(
               'In order to have skyhook parse your webhooks properly, you must first generate a webhook URL. Once you have the URL generated, you can pass it along to the provider you selected.',
-              style: Theme.of(context).textTheme.bodyText1,
+              style: Theme.of(context).textTheme.bodyLarge,
             ),
             verticalSeparator(),
             TextFormField(

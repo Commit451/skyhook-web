@@ -19,7 +19,7 @@ class SkyhookApi {
   }
 
   static Future<void> testProvider(String url) async {
-    var uri = Uri.parse(url + "/test");
+    var uri = Uri.parse("$url/test");
     await client.post(uri);
   }
 }
