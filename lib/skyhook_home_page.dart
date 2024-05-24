@@ -61,9 +61,7 @@ class _SkyhookHomePageState extends State<SkyhookHomePage> {
 
   void _launchUrl(String url) async {
     Uri uri = Uri.parse(url);
-    if (!await launchUrl(uri)) {
-      SnackBarHelper.show(context, 'Could not launch $url');
-    }
+    await launchUrl(uri);
   }
 
   void _generate() {
