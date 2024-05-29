@@ -65,7 +65,8 @@ class _SkyhookHomePageState extends State<SkyhookHomePage> {
   }
 
   void _generate() {
-    String domain = "discord.com";
+    String deprecatedDomain = "discord.com";
+    String domain = "discordapp.com"
     String providerPath = _selectedProvider?.path ?? "";
     if (providerPath.isEmpty) {
       SnackBarHelper.show(context, 'Please select a provider');
@@ -78,7 +79,7 @@ class _SkyhookHomePageState extends State<SkyhookHomePage> {
       });
       return;
     }
-    if (!url.contains(domain)) {
+    if (!url.contains(domain) || !url.contains(deprecatedDomain)) {
       setState(() {
         _currentErrorMessage = "Not a valid Discord Webhook URL";
       });
